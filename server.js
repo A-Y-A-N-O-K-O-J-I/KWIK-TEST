@@ -2,9 +2,11 @@ const express = require("express");
 const axios = require("axios");
 
 const app = express()
+app.use(express.json());
 
 app.post("/kwik",async (req,res)=>{
-    const { kwik_url,token,kwik_session } = req.body;
+    console.log(req.body)
+    const { kwik_url, token, kwik_session } = req.body;
     if(!kwik_url){
         return res.status(400).json({
             status:400,
@@ -46,5 +48,5 @@ app.post("/kwik",async (req,res)=>{
         })
     }
 })
-
-module.exports = app;
+app.listen(5000)
+// module.exports = app;
