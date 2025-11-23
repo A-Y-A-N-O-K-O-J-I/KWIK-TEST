@@ -35,7 +35,7 @@ app.post("/kwik",async (req,res)=>{
         }
     
         return res.json({
-            url:response.data.content.url
+            ...response.data
         })
 
     } catch(error){
