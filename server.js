@@ -3,24 +3,30 @@ const axios = require("axios");
 
 const app = express()
 
-app.get("/kwik",async (req,res)=>{
-    const { kwik_url } = req.query;
+app.post("/kwik",async (req,res)=>{
+    const { kwik_url,token,kwik_session } = req.body;
     if(!kwik_url){
         return res.status(400).json({
             status:400,
             message:"Kwik url required"
         })
     }
+    if(!token) return res.status(400).json({
+        status:400,
+        message:"Token is required"
+    })
+    if(!kwik_session) return res.status(400).json({
+        status:400,
+        message:"Kwik param is required"
+    })
+
     try{
         const payload = {
-            "service": "kwik",
-            "action": "fetch",
-            "content": {
-                "kwik": kwik_url
-            },
-            "auth": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.e30.O0FKaqhJjEZgCAVfZoLz6Pjd7Gs9Kv6qi0P8RyATjaE"
+            kwik_url,
+            kwik_session,
+            token
         }
-        const response = await axios.post("https://access-kwik.apex-cloud.workers.dev",payload);
+        const response = await axios.post("https://wispy-resonance-ee4a.ayanokojix2306.workers.dev/",payload);
         if(response.status !== 200){
             return res.status(500).json({
                 status:500,
